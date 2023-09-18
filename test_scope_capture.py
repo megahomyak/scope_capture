@@ -23,3 +23,16 @@ def test_capturing_in_a_function():
             return (SOMETHING_GLOBAL, i)
         a.append(capture(f))
     assert [f() for f in a] == [(256, 3), (256, 4)]
+
+
+def test_capturing_nested_scopes():
+    functions = []
+    for i in [1, 2]:
+        def a():
+            def b():
+                def c():
+                    return i
+                return c()
+            return b()
+        functions.append(capture(a))
+    assert [f() for f in functions] == [1, 2]
