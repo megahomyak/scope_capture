@@ -31,7 +31,7 @@ def test_capturing_nested_scopes():
         def a():
             def b():
                 def c():
-                    functions.append(lambda: i)
+                    functions.append(capture(lambda: i))
                 c()
             b()
         a()
