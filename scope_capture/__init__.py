@@ -1,3 +1,4 @@
+import inspect
 from types import FunctionType
 
 def _make_cell(value):
@@ -5,18 +6,22 @@ def _make_cell(value):
     return fn.__closure__[0]
 
 def capture(f):
-    # print(fn_globals["i"])
-    # print(f.__closure__)
-    # breakpoint()
-    captured_cells = []
-    if f.__closure__:
-        for cell in f.__closure__:
-            captured_cells.append(_make_cell(cell.cell_contents))
-    call_fn = FunctionType(
-        code=f.__code__,
-        globals=f.__globals__,
-        name=f.__name__,
-        argdefs=f.__defaults__,
-        closure=tuple(captured_cells),
-    )
-    return call_fn
+    try:
+        frame = inspect.currentframe()
+        fake_globals = {}
+        fake_globals.update(f.__globals__)
+        fake_globals.update(frame.f_back.f_locals)
+        captured_cells = []
+        if f.__closure__:
+            for cell in f.__closure__:
+                captured_cells.append(_make_cell(cell.cell_contents))
+        call_fn = FunctionType(
+            code=f.__code__,
+            globals=fake_globals,
+            name=f.__name__,
+            argdefs=f.__defaults__,
+            closure=tuple(captured_cells),
+        )
+        return call_fn
+    finally:
+        del frame
