@@ -1,5 +1,7 @@
 # scope\_capture
 
+**WARNING**: I haven't tested it on older Python versions, "3.8" is only a requirement because I'm lazy! Please, if you can afford testing this on older Python versions, send a pull request, it will be very appreciated.
+
 This library will allow you to capture surrounding scopes of functions and closures and freeze them with the callable object itself.
 
 ## The problem
