@@ -12,9 +12,10 @@ def capture(f):
     finally:
         del frame # See note at https://docs.python.org/3/library/inspect.html#the-interpreter-stack
 
-a = []
-SOMETHING_GLOBAL = 123
-for i in [1, 2]:
-    a.append(capture(lambda: (SOMETHING_GLOBAL, i)))
+if __name__ == "__main__":
+    a = []
+    SOMETHING_GLOBAL = 123
+    for i in [1, 2]:
+        a.append(capture(lambda: (SOMETHING_GLOBAL, i)))
 
-print(a[0](), a[1]())
+    print(a[0](), a[1]())
