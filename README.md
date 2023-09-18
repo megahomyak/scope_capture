@@ -39,3 +39,7 @@ This library can work with functions too.
 ## Examples
 
 If you want to see examples, check out the `test_scope_capture.py` file.
+
+## Installation
+
+`pip install scope_capture`
