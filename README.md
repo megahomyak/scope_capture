@@ -27,7 +27,7 @@ from scope_capture import capture
 
 a = []
 for i in [1, 2]:
-    a.append(lambda: i)
+    a.append(capture(lambda: i))
 for f in a:
     print(f())
 ```
