@@ -15,7 +15,6 @@ def capture(f):
         if f.__closure__:
             for cell in f.__closure__:
                 captured_cells.append(_make_cell(cell.cell_contents))
-        print(captured_cells, fake_globals["i"])
         call_fn = FunctionType(
             code=f.__code__,
             globals=fake_globals,
