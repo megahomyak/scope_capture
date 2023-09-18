@@ -1,18 +1,22 @@
-import inspect
 from types import FunctionType
 
 def capture(f):
     try:
-        frame = inspect.currentframe()
-        fn_globals = {}
-        fn_globals.update(f.__globals__)
-        fn_globals.update(frame.f_back.f_locals)
+        # print(fn_globals["i"])
+        # print(f.__closure__)
+        # breakpoint()
+        captured_cells = []
+        if f.__closure__:
+            for cell in f.__closure__:
+                contents = cell.cell_contents
+                captured_cell = (lambda: contents).__closure__[0]
+                captured_cells.append(captured_cell)
         call_fn = FunctionType(
             code=f.__code__,
-            globals=fn_globals,
+            globals=f.__globals__,
             name=f.__name__,
             argdefs=f.__defaults__,
-            closure=f.__closure__,
+            closure=tuple(captured_cells),
         )
         return call_fn
     finally:
