@@ -10,10 +10,7 @@ def capture(f):
         frame = inspect.currentframe()
         fake_globals = {}
         fake_globals.update(f.__globals__)
-        frame = frame.f_back # I don't want any names from the current scope
-        while frame:
-            fake_globals.update(frame.f_locals)
-            frame = frame.f_back
+        fake_globals.update(frame.f_back.f_locals)
         captured_cells = []
         if f.__closure__:
             for cell in f.__closure__:
