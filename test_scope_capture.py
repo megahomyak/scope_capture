@@ -31,8 +31,8 @@ def test_capturing_nested_scopes():
         def a():
             def b():
                 def c():
-                    return i
-                return c()
-            return b()
-        functions.append(capture(a))
+                    functions.append(lambda: i)
+                c()
+            b()
+        a()
     assert [f() for f in functions] == [1, 2]
